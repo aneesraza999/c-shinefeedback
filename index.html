@@ -1,0 +1,1045 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>C-Shine Pakistan — Customer Dashboard</title>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+/* ========== DESIGN TOKENS ========== */
+:root {
+  --trust-blue: #005A9C;
+  --cshine-green: #2E7D32;
+  --bg: #F0F2F5;
+  --surface: #FFFFFF;
+  --text: #1A1A2E;
+  --muted: #6B7280;
+  --amber: #F59E0B;
+  --border: #E5E7EB;
+  --radius: 14px;
+  --shadow: 0 2px 12px rgba(0, 0, 0, 0.06);
+}
+* { box-sizing: border-box; margin: 0; padding: 0; }
+body {
+  font-family: 'Inter', system-ui, sans-serif;
+  background: var(--bg);
+  color: var(--text);
+  min-height: 100vh;
+  padding: 0;
+  line-height: 1.5;
+  display: flex;
+  flex-direction: column;
+}
+
+/* ========== TOP BAR ========== */
+.topbar {
+  background: linear-gradient(135deg, #003D6B 0%, var(--trust-blue) 100%);
+  color: white;
+  padding: 14px 28px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  box-shadow: 0 2px 12px rgba(0, 90, 156, 0.2);
+}
+.topbar-brand {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+.topbar-logo {
+  width: 42px; height: 42px;
+  background: rgba(255,255,255,0.15);
+  border-radius: 10px;
+  display: flex; align-items: center; justify-content: center;
+  font-size: 20px;
+  font-weight: 700;
+  border: 1px solid rgba(255,255,255,0.2);
+}
+.topbar-name {
+  font-size: 18px;
+  font-weight: 700;
+  letter-spacing: -0.3px;
+}
+.topbar-sub {
+  font-size: 11px;
+  opacity: 0.75;
+  letter-spacing: 1px;
+  text-transform: uppercase;
+}
+
+/* ========== MAIN LAYOUT ========== */
+.container {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 24px 20px;
+  flex: 1;
+  width: 100%;
+}
+
+/* ========== WELCOME STRIP ========== */
+.welcome-strip {
+  background: var(--surface);
+  border-radius: var(--radius);
+  padding: 20px 24px;
+  margin-bottom: 20px;
+  box-shadow: var(--shadow);
+  border-left: 5px solid var(--cshine-green);
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 12px;
+}
+.welcome-text h2 {
+  font-size: 20px;
+  font-weight: 700;
+  margin-bottom: 2px;
+}
+.welcome-text p {
+  font-size: 13px;
+  color: var(--muted);
+}
+.welcome-badges {
+  display: flex;
+  gap: 10px;
+  align-items: center;
+}
+.welcome-badge {
+  background: #E8F5E9;
+  color: var(--cshine-green);
+  padding: 6px 14px;
+  border-radius: 20px;
+  font-size: 12px;
+  font-weight: 600;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+.welcome-badge::before {
+  content: '';
+  width: 8px; height: 8px;
+  background: var(--cshine-green);
+  border-radius: 50%;
+  animation: pulse 2s infinite;
+}
+.welcome-btn-badge {
+  background: #E3F2FD;
+  color: var(--trust-blue);
+  border: 1px solid #90CAF9;
+  padding: 6px 14px;
+  border-radius: 20px;
+  font-size: 12px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: 0.2s;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+.welcome-btn-badge:hover { background: #BBDEFB; }
+
+@keyframes pulse {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0.4; }
+}
+
+/* ========== BOARD GRID ========== */
+.board {
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr;
+  gap: 18px;
+}
+@media (max-width: 900px) {
+  .board { grid-template-columns: 1fr 1fr; }
+}
+@media (max-width: 600px) {
+  .board { grid-template-columns: 1fr; }
+}
+
+/* ========== PANEL CARDS ========== */
+.panel {
+  background: var(--surface);
+  border-radius: var(--radius);
+  box-shadow: var(--shadow);
+  overflow: hidden;
+  border: 1px solid var(--border);
+}
+.panel-header {
+  padding: 16px 20px;
+  border-bottom: 1px solid var(--border);
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+.panel-header .icon {
+  width: 34px; height: 34px;
+  border-radius: 9px;
+  display: flex; align-items: center; justify-content: center;
+  font-size: 16px;
+}
+.icon.blue { background: #E3F2FD; }
+.icon.green { background: #E8F5E9; }
+.icon.amber { background: #FFF8E1; }
+.icon.purple { background: #F3E5F5; }
+.panel-header h3 {
+  font-size: 13px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.8px;
+  color: var(--muted);
+}
+.panel-body { padding: 18px 20px; }
+
+/* ========== PERSONAL ASSISTANT ========== */
+.assistant-avatar {
+  width: 56px; height: 56px;
+  border-radius: 50%;
+  background: linear-gradient(135deg, var(--trust-blue), #0077CC);
+  display: flex; align-items: center; justify-content: center;
+  font-size: 26px;
+  margin: 0 auto 12px;
+  box-shadow: 0 4px 14px rgba(0, 90, 156, 0.25);
+}
+.assistant-name {
+  text-align: center;
+  font-weight: 700;
+  font-size: 16px;
+  margin-bottom: 2px;
+}
+.assistant-role {
+  text-align: center;
+  font-size: 12px;
+  color: var(--muted);
+  margin-bottom: 16px;
+}
+.assistant-actions {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+.assistant-btn {
+  width: 100%;
+  padding: 11px 16px;
+  border-radius: 10px;
+  border: 1px solid var(--border);
+  background: #FAFBFC;
+  font-family: inherit;
+  font-size: 13px;
+  font-weight: 500;
+  cursor: pointer;
+  transition: 0.2s;
+  text-align: left;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+.assistant-btn:hover {
+  border-color: var(--trust-blue);
+  background: #F0F7FF;
+  color: var(--trust-blue);
+}
+
+/* ========== SERVICES LIST ========== */
+.service-item {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 10px 0;
+  border-bottom: 1px solid #F3F4F6;
+  transition: 0.2s;
+}
+.service-item:last-child { border-bottom: none; }
+.service-item:hover { padding-left: 4px; }
+.service-icon {
+  width: 32px; height: 32px;
+  border-radius: 8px;
+  background: #E8F5E9;
+  display: flex; align-items: center; justify-content: center;
+  font-size: 15px;
+  flex-shrink: 0;
+}
+.service-info { flex: 1; }
+.service-name {
+  font-size: 13px;
+  font-weight: 600;
+}
+.service-desc {
+  font-size: 11px;
+  color: var(--muted);
+}
+.service-status {
+  font-size: 10px;
+  font-weight: 700;
+  padding: 3px 8px;
+  border-radius: 6px;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+.status-active { background: #E8F5E9; color: var(--cshine-green); }
+.status-available { background: #E3F2FD; color: var(--trust-blue); }
+
+/* ========== COMPLAINTS ========== */
+.complaint-form textarea {
+  width: 100%;
+  border: 1.5px solid var(--border);
+  border-radius: 10px;
+  padding: 12px;
+  font-family: inherit;
+  font-size: 13px;
+  resize: vertical;
+  min-height: 70px;
+  outline: none;
+  transition: 0.2s;
+}
+.complaint-form textarea:focus {
+  border-color: var(--trust-blue);
+  box-shadow: 0 0 0 3px rgba(0, 90, 156, 0.08);
+}
+.btn-submit {
+  width: 100%;
+  margin-top: 10px;
+  padding: 11px;
+  border: none;
+  border-radius: 10px;
+  background: var(--trust-blue);
+  color: white;
+  font-family: inherit;
+  font-size: 13px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: 0.2s;
+}
+.btn-submit:hover { background: #004a80; }
+
+.complaint-list {
+  list-style: none;
+  margin-top: 14px;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  max-height: 160px;
+  overflow-y: auto;
+}
+.complaint-item {
+  background: #F9FAFB;
+  border-radius: 9px;
+  padding: 10px 12px;
+  font-size: 12px;
+  border-left: 3px solid var(--amber);
+  display: flex;
+  justify-content: space-between;
+  gap: 8px;
+}
+.complaint-time {
+  color: var(--muted);
+  font-size: 10px;
+  white-space: nowrap;
+}
+.complaint-empty {
+  text-align: center;
+  color: var(--muted);
+  font-size: 12px;
+  padding: 20px;
+}
+
+/* ========== TEAMS ========== */
+.team-member {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 10px 0;
+  border-bottom: 1px solid #F3F4F6;
+}
+.team-member:last-child { border-bottom: none; }
+.team-avatar {
+  width: 36px; height: 36px;
+  border-radius: 10px;
+  display: flex; align-items: center; justify-content: center;
+  font-size: 15px;
+  font-weight: 700;
+  color: white;
+  flex-shrink: 0;
+}
+.avatar-blue { background: linear-gradient(135deg, #005A9C, #0077CC); }
+.avatar-green { background: linear-gradient(135deg, #2E7D32, #43A047); }
+.avatar-amber { background: linear-gradient(135deg, #F59E0B, #FBBF24); }
+.avatar-purple { background: linear-gradient(135deg, #7B1FA2, #9C27B0); }
+.team-info { flex: 1; }
+.team-name { font-size: 13px; font-weight: 600; }
+.team-role { font-size: 11px; color: var(--muted); }
+.team-status {
+  width: 8px; height: 8px;
+  border-radius: 50%;
+  background: var(--cshine-green);
+  flex-shrink: 0;
+}
+
+/* ========== FULL WIDTH PANEL ========== */
+.full-width { grid-column: 1 / -1; }
+
+/* ========== FOOTER ========== */
+.footer {
+  background: var(--surface);
+  border-top: 1px solid var(--border);
+  text-align: center;
+  padding: 18px 20px;
+  margin-top: 30px;
+  font-size: 13px;
+  color: var(--muted);
+  font-weight: 500;
+}
+
+/* ========== MODAL STYLES ========== */
+.modal {
+  position: fixed; inset: 0;
+  background: rgba(0, 0, 0, 0.5);
+  display: none;
+  align-items: center;
+  justify-content: center;
+  z-index: 999;
+  padding: 20px;
+}
+.modal.show { display: flex; }
+.modal-box {
+  background: white;
+  border-radius: 18px;
+  padding: 28px;
+  text-align: center;
+  max-width: 440px;
+  width: 100%;
+  box-shadow: 0 24px 64px rgba(0,0,0,0.2);
+  position: relative;
+  max-height: 90vh;
+  overflow-y: auto;
+}
+.modal-box.large {
+  max-width: 650px;
+  text-align: left;
+}
+.modal-close {
+  position: absolute; top: 16px; right: 20px;
+  background: none; border: none; font-size: 20px; cursor: pointer; color: var(--muted);
+}
+.modal-box h3 { font-size: 20px; color: var(--trust-blue); margin-bottom: 12px; }
+.modal-box p { font-size: 13px; color: var(--muted); margin-bottom: 16px; }
+
+.modal-credit {
+  font-size: 11px;
+  color: var(--muted);
+  margin-top: 14px;
+  font-weight: 500;
+}
+
+/* Modal Checkbox List */
+.service-checklist {
+  text-align: left;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  margin-bottom: 16px;
+}
+.check-item {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  background: #F9FAFB;
+  padding: 10px 14px;
+  border-radius: 8px;
+  border: 1px solid var(--border);
+  font-size: 13px;
+  cursor: pointer;
+}
+
+/* Reports List */
+.report-list {
+  text-align: left;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  margin-bottom: 16px;
+}
+.report-item {
+  border: 1px solid var(--border);
+  padding: 12px;
+  border-radius: 10px;
+  background: #FAFBFC;
+}
+.report-title { font-size: 13px; font-weight: 600; color: var(--text); }
+.report-desc { font-size: 11px; color: var(--muted); margin: 4px 0 8px; }
+.report-btn {
+  display: inline-block;
+  padding: 4px 10px;
+  font-size: 11px;
+  background: var(--trust-blue);
+  color: white;
+  border-radius: 6px;
+  text-decoration: none;
+}
+
+/* Chatbot Styles */
+.chat-window {
+  display: flex;
+  flex-direction: column;
+  height: 260px;
+  border: 1px solid var(--border);
+  border-radius: 10px;
+  background: #FAFBFC;
+  overflow: hidden;
+}
+.chat-messages {
+  flex: 1;
+  padding: 12px;
+  overflow-y: auto;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  text-align: left;
+  font-size: 12px;
+}
+.msg { padding: 8px 12px; border-radius: 12px; max-width: 80%; }
+.msg.bot { background: #E3F2FD; color: var(--trust-blue); align-self: flex-start; }
+.msg.user { background: var(--cshine-green); color: white; align-self: flex-end; }
+.chat-input-area {
+  display: flex;
+  border-top: 1px solid var(--border);
+}
+.chat-input-area input {
+  flex: 1; border: none; padding: 10px; font-size: 12px; outline: none;
+}
+.chat-input-area button {
+  background: var(--trust-blue); color: white; border: none; padding: 0 16px; cursor: pointer; font-weight: 600;
+}
+
+/* MCQ Survey Styles */
+.survey-question {
+  background: #F9FAFB;
+  border: 1px solid var(--border);
+  padding: 14px;
+  border-radius: 10px;
+  margin-bottom: 12px;
+}
+.survey-question p {
+  font-size: 13px;
+  font-weight: 600;
+  color: var(--text);
+  margin-bottom: 8px;
+}
+.survey-options {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+.survey-options label {
+  font-size: 12px;
+  color: #374151;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  cursor: pointer;
+}
+
+/* ========== SCROLLBAR ========== */
+::-webkit-scrollbar { width: 5px; }
+::-webkit-scrollbar-thumb { background: #CBD5E1; border-radius: 3px; }
+</style>
+</head>
+<body>
+
+<!-- TOP BAR -->
+<div class="topbar">
+  <div class="topbar-brand">
+    <div class="topbar-logo">C</div>
+    <div>
+      <div class="topbar-name">C-Shine Pakistan</div>
+      <div class="topbar-sub">Customer Dashboard</div>
+    </div>
+  </div>
+</div>
+
+<!-- MAIN CONTAINER -->
+<div class="container">
+
+  <!-- WELCOME STRIP -->
+  <div class="welcome-strip">
+    <div class="welcome-text">
+      <h2 id="greetingText">Welcome back, Customer 👋</h2>
+      <p id="dateText"></p>
+    </div>
+    <div class="welcome-badges">
+      <button class="welcome-btn-badge" onclick="openModal('welcomeModal')">👋 Welcome to C-Shine</button>
+      <div class="welcome-badge">System Online</div>
+    </div>
+  </div>
+
+  <!-- BOARD GRID -->
+  <div class="board">
+
+    <!-- PERSONAL ASSISTANT -->
+    <div class="panel">
+      <div class="panel-header">
+        <div class="icon blue">🤖</div>
+        <h3>Personal Assistant</h3>
+      </div>
+      <div class="panel-body">
+        <div class="assistant-avatar">👩‍💼</div>
+        <div class="assistant-name">C-Shine Assistant</div>
+        <div class="assistant-role">Available 24/7 for support</div>
+        <div class="assistant-actions">
+          <button class="assistant-btn" onclick="openModal('callbackModal')">📞 Request a Callback</button>
+          <button class="assistant-btn" onclick="openModal('bookServiceModal')">📅 Book a Service</button>
+          <button class="assistant-btn" onclick="openModal('reportsModal')">📄 View Reports</button>
+          <button class="assistant-btn" onclick="openModal('chatModal')">💬 Live Chat Support</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- SERVICES -->
+    <div class="panel">
+      <div class="panel-header">
+        <div class="icon green">🛡️</div>
+        <h3>Our Services</h3>
+      </div>
+      <div class="panel-body">
+        <div class="service-item">
+          <div class="service-icon">🔍</div>
+          <div class="service-info">
+            <div class="service-name">Pest Inspection</div>
+            <div class="service-desc">Free survey & consultation</div>
+          </div>
+          <span class="service-status status-active">Active</span>
+        </div>
+        <div class="service-item">
+          <div class="service-icon">🧪</div>
+          <div class="service-info">
+            <div class="service-name">Pest Treatment</div>
+            <div class="service-desc">Eco-friendly solutions</div>
+          </div>
+          <span class="service-status status-active">Active</span>
+        </div>
+        <div class="service-item">
+          <div class="service-icon">🦟</div>
+          <div class="service-info">
+            <div class="service-name">Termite Control</div>
+            <div class="service-desc">Pre & post construction</div>
+          </div>
+          <span class="service-status status-active">Active</span>
+        </div>
+        <div class="service-item">
+          <div class="service-icon">🐭</div>
+          <div class="service-info">
+            <div class="service-name">Rodent Control</div>
+            <div class="service-desc">Smart traps & bait stations</div>
+          </div>
+          <span class="service-status status-available">Available</span>
+        </div>
+        <div class="service-item">
+          <div class="service-icon">🦆</div>
+          <div class="service-info">
+            <div class="service-name">Bird Control</div>
+            <div class="service-desc">Humane dispersal solutions</div>
+          </div>
+          <span class="service-status status-available">Available</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- COMPLAINTS -->
+    <div class="panel">
+      <div class="panel-header">
+        <div class="icon amber">📝</div>
+        <h3>Raise a Concern</h3>
+      </div>
+      <div class="panel-body">
+        <div class="complaint-form">
+          <textarea id="complaintInput" placeholder="Describe your concern... e.g., treatment quality, scheduling, technician service"></textarea>
+          <button class="btn-submit" id="submitBtn">Submit Concern</button>
+        </div>
+        <ul class="complaint-list" id="complaintList">
+          <li class="complaint-empty">No concerns submitted yet.</li>
+        </ul>
+      </div>
+    </div>
+
+    <!-- TEAMS -->
+    <div class="panel">
+      <div class="panel-header">
+        <div class="icon purple">👥</div>
+        <h3>Support Teams</h3>
+      </div>
+      <div class="panel-body">
+        <div class="team-member">
+          <div class="team-avatar avatar-blue">SA</div>
+          <div class="team-info">
+            <div class="team-name">Saima Gondal</div>
+            <div class="team-role">Sales & Marketing Director</div>
+          </div>
+          <div class="team-status"></div>
+        </div>
+        <div class="team-member">
+          <div class="team-avatar avatar-green">MT</div>
+          <div class="team-info">
+            <div class="team-name">M. Tariq</div>
+            <div class="team-role">Technical Operations</div>
+          </div>
+          <div class="team-status"></div>
+        </div>
+        <div class="team-member">
+          <div class="team-avatar avatar-amber">AK</div>
+          <div class="team-info">
+            <div class="team-name">A. Khan</div>
+            <div class="team-role">Customer Support Lead</div>
+          </div>
+          <div class="team-status"></div>
+        </div>
+        <div class="team-member">
+          <div class="team-avatar avatar-purple">RH</div>
+          <div class="team-info">
+            <div class="team-name">R. Hussain</div>
+            <div class="team-role">Field Supervisor</div>
+          </div>
+          <div class="team-status"></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- SATISFACTION (Full Width) -->
+    <div class="panel full-width">
+      <div class="panel-header">
+        <div class="icon green">⭐</div>
+        <h3>Satisfaction Level & Survey</h3>
+      </div>
+      <div class="panel-body" style="text-align:center;">
+        <div id="emojiRow" style="display:flex;justify-content:center;gap:12px;margin-bottom:12px;">
+          <button class="emoji-btn" data-v="1" style="background:none;border:2px solid transparent;border-radius:12px;font-size:32px;cursor:pointer;padding:8px;transition:0.2s;">😡</button>
+          <button class="emoji-btn" data-v="2" style="background:none;border:2px solid transparent;border-radius:12px;font-size:32px;cursor:pointer;padding:8px;transition:0.2s;">🙁</button>
+          <button class="emoji-btn" data-v="3" style="background:none;border:2px solid transparent;border-radius:12px;font-size:32px;cursor:pointer;padding:8px;transition:0.2s;">😐</button>
+          <button class="emoji-btn" data-v="4" style="background:none;border:2px solid transparent;border-radius:12px;font-size:32px;cursor:pointer;padding:8px;transition:0.2s;">🙂</button>
+          <button class="emoji-btn" data-v="5" style="background:none;border:2px solid transparent;border-radius:12px;font-size:32px;cursor:pointer;padding:8px;transition:0.2s;">😍</button>
+        </div>
+        <p id="satText" style="font-size:13px;color:var(--muted); margin-bottom: 16px;">Rate your service experience</p>
+        
+        <button class="btn-submit" style="max-width:280px;" onclick="openModal('surveyModal')">📋 Customer Satisfaction Survey</button>
+      </div>
+    </div>
+
+  </div>
+</div>
+
+<!-- FOOTER -->
+<footer class="footer">
+  This is developed by M Anees Raza
+</footer>
+
+<!-- WELCOME MODAL -->
+<div class="modal" id="welcomeModal">
+  <div class="modal-box">
+    <div class="emoji" style="font-size: 48px; margin-bottom: 12px;">🤝</div>
+    <h3>Welcome to C-Shine Pakistan!</h3>
+    <p>We are dedicated to providing premium pest management and customer service excellence. Explore your dashboard to request support, book services, or provide feedback.</p>
+    <button class="btn-submit" onclick="closeModal('welcomeModal')" style="max-width:200px;">Continue</button>
+    <div class="modal-credit">This is developed by M Anees Raza</div>
+  </div>
+</div>
+
+<!-- CALLBACK MODAL -->
+<div class="modal" id="callbackModal">
+  <div class="modal-box">
+    <button class="modal-close" onclick="closeModal('callbackModal')">&times;</button>
+    <h3>Request a Callback</h3>
+    <p>Our representative will contact you shortly. You can also call us directly at:</p>
+    <div style="background:#E3F2FD; padding:16px; border-radius:10px; margin-bottom:16px;">
+      <h4 style="color:var(--trust-blue); font-size:18px;">📞 +92 300 1234567</h4>
+      <p style="font-size:12px; margin:4px 0 0; color:var(--muted);">Toll Free: 0800-CSHINE (27446)</p>
+    </div>
+    <button class="btn-submit" onclick="closeModal('callbackModal')">Close</button>
+  </div>
+</div>
+
+<!-- BOOK SERVICE MODAL -->
+<div class="modal" id="bookServiceModal">
+  <div class="modal-box">
+    <button class="modal-close" onclick="closeModal('bookServiceModal')">&times;</button>
+    <h3>Book a Service</h3>
+    <p>Select the services you require:</p>
+    <div class="service-checklist">
+      <label class="check-item"><input type="checkbox" value="Pest Inspection"> Pest Inspection</label>
+      <label class="check-item"><input type="checkbox" value="Pest Treatment"> Pest Treatment</label>
+      <label class="check-item"><input type="checkbox" value="Termite Control"> Termite Control</label>
+      <label class="check-item"><input type="checkbox" value="Rodent Control"> Rodent Control</label>
+      <label class="check-item"><input type="checkbox" value="Bird Control"> Bird Control</label>
+    </div>
+    <button class="btn-submit" onclick="submitServiceBooking()">Submit Booking Request</button>
+    <p id="bookingSuccess" style="display:none; color:var(--cshine-green); font-weight:600; margin-top:12px; font-size:13px;">
+      ✓ Successfully Submitted! Our team will confirm your appointment shortly.
+    </p>
+  </div>
+</div>
+
+<!-- REPORTS MODAL -->
+<div class="modal" id="reportsModal">
+  <div class="modal-box">
+    <button class="modal-close" onclick="closeModal('reportsModal')">&times;</button>
+    <h3>Pest Management Reports</h3>
+    <p>Latest research & industry trends data for Pakistan:</p>
+    <div class="report-list">
+      <div class="report-item">
+        <div class="report-title">📊 Termite Infestation Trends 2026</div>
+        <div class="report-desc">Analysis of soil treatment efficiency and post-construction protection in urban Punjab.</div>
+        <a href="#" class="report-btn" onclick="alert('Downloading Report...'); return false;">Download PDF</a>
+      </div>
+      <div class="report-item">
+        <div class="report-title">🧪 Eco-Friendly Pest Control Safety</div>
+        <div class="report-desc">Research paper on non-toxic gel treatments for commercial and residential spaces.</div>
+        <a href="#" class="report-btn" onclick="alert('Opening Research Paper...'); return false;">View Paper</a>
+      </div>
+      <div class="report-item">
+        <div class="report-title">🦟 Seasonal Dengue Vector Study</div>
+        <div class="report-desc">Monsoon mosquito breeding patterns and preventative biological controls.</div>
+        <a href="#" class="report-btn" onclick="alert('Downloading Report...'); return false;">Download PDF</a>
+      </div>
+    </div>
+    <button class="btn-submit" onclick="closeModal('reportsModal')">Close</button>
+  </div>
+</div>
+
+<!-- LIVE CHAT MODAL -->
+<div class="modal" id="chatModal">
+  <div class="modal-box">
+    <button class="modal-close" onclick="closeModal('chatModal')">&times;</button>
+    <h3>C-Shine Support Chat</h3>
+    <div class="chat-window">
+      <div class="chat-messages" id="chatMessages">
+        <div class="msg bot">Hello! How can C-Shine support team assist you today?</div>
+      </div>
+      <div class="chat-input-area">
+        <input type="text" id="chatInput" placeholder="Type your query..." onkeypress="handleChatKey(event)">
+        <button onclick="sendChatMessage()">Send</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- 20-MCQ SATISFACTION SURVEY MODAL -->
+<div class="modal" id="surveyModal">
+  <div class="modal-box large">
+    <button class="modal-close" onclick="closeModal('surveyModal')">&times;</button>
+    <h3>Customer Satisfaction Survey</h3>
+    <p>Please rate your experience across the following 20 aspects:</p>
+
+    <form id="mcqSurveyForm">
+      <div id="surveyContainer"></div>
+      <button type="button" class="btn-submit" onclick="submitSurvey()">Submit Feedback</button>
+    </form>
+  </div>
+</div>
+
+<!-- THANK YOU POPUP MODAL -->
+<div class="modal" id="thankYouModal">
+  <div class="modal-box">
+    <div class="emoji" style="font-size: 48px; margin-bottom: 12px;">🌟</div>
+    <h3>Thank You!</h3>
+    <p>Thank you for your valuable submission! Your feedback helps us continuously improve our service quality.</p>
+    <button class="btn-submit" onclick="closeModal('thankYouModal')" style="max-width:200px;">Close</button>
+  </div>
+</div>
+
+<script>
+/* ============================================================
+   CUSTOMER DATA
+   ============================================================ */
+const customer = {
+  name: "Customer"
+};
+
+/* ============================================================
+   20 SURVEY QUESTIONS DATA
+   ============================================================ */
+const surveyQuestions = [
+  "1. How satisfied are you with overall treatment effectiveness?",
+  "2. How punctual was the technician for the scheduled appointment?",
+  "3. How professional was the behavior of our field technician?",
+  "4. How clear were the pre-treatment instructions provided?",
+  "5. How safe and eco-friendly did you find the treatment chemical?",
+  "6. How satisfied were you with the thoroughness of the inspection?",
+  "7. How quick was our customer support in handling your inquiries?",
+  "8. How clear and transparent was the pricing structure?",
+  "9. How satisfied are you with our termite control solutions?",
+  "10. How satisfied are you with our general pest treatment?",
+  "11. How well did our team explain post-treatment safety precautions?",
+  "12. How easy was it to schedule an appointment through our system?",
+  "13. How satisfied are you with technician hygiene and protective gear?",
+  "14. How responsive was our supervisor during follow-up checks?",
+  "15. How effectively were your complaints or concerns addressed?",
+  "16. How satisfied are you with our rodent and trap management?",
+  "17. How accurate were the service inspection reports provided?",
+  "18. How likely are you to recommend C-Shine Pakistan to others?",
+  "19. How would you rate overall value for money of our services?",
+  "20. What is your overall impression of C-Shine's digital customer dashboard?"
+];
+
+// Generate 20 MCQs dynamically
+const surveyContainer = document.getElementById("surveyContainer");
+surveyQuestions.forEach((q, idx) => {
+  const div = document.createElement("div");
+  div.className = "survey-question";
+  div.innerHTML = `
+    <p>${q}</p>
+    <div class="survey-options">
+      <label><input type="radio" name="q${idx}" value="Excellent" checked> Excellent</label>
+      <label><input type="radio" name="q${idx}" value="Good"> Good</label>
+      <label><input type="radio" name="q${idx}" value="Average"> Average</label>
+      <label><input type="radio" name="q${idx}" value="Poor"> Poor</label>
+    </div>
+  `;
+  surveyContainer.appendChild(div);
+});
+
+function submitSurvey() {
+  closeModal('surveyModal');
+  openModal('thankYouModal');
+}
+
+/* ============================================================
+   MODAL HANDLERS
+   ============================================================ */
+function openModal(id) {
+  document.getElementById(id).classList.add("show");
+}
+function closeModal(id) {
+  document.getElementById(id).classList.remove("show");
+  if(id === 'bookServiceModal') {
+    document.getElementById('bookingSuccess').style.display = 'none';
+  }
+}
+
+/* ============================================================
+   BOOK SERVICE ACTION
+   ============================================================ */
+function submitServiceBooking() {
+  const checkboxes = document.querySelectorAll('.service-checklist input[type="checkbox"]:checked');
+  if (checkboxes.length === 0) {
+    alert("Please select at least one service.");
+    return;
+  }
+  document.getElementById('bookingSuccess').style.display = 'block';
+  setTimeout(() => {
+    checkboxes.forEach(cb => cb.checked = false);
+  }, 1000);
+}
+
+/* ============================================================
+   LIVE CHAT FRONT-END LOGIC
+   ============================================================ */
+function handleChatKey(e) {
+  if (e.key === 'Enter') sendChatMessage();
+}
+function sendChatMessage() {
+  const input = document.getElementById('chatInput');
+  const text = input.value.trim();
+  if (!text) return;
+
+  const msgs = document.getElementById('chatMessages');
+  
+  // User message
+  const userMsg = document.createElement('div');
+  userMsg.className = 'msg user';
+  userMsg.textContent = text;
+  msgs.appendChild(userMsg);
+
+  input.value = '';
+  msgs.scrollTop = msgs.scrollHeight;
+
+  // Automated Front-end Response
+  setTimeout(() => {
+    const botMsg = document.createElement('div');
+    botMsg.className = 'msg bot';
+    botMsg.textContent = "Thank you for contacting C-Shine! An agent has received your query and will reply shortly.";
+    msgs.appendChild(botMsg);
+    msgs.scrollTop = msgs.scrollHeight;
+  }, 800);
+}
+
+/* ============================================================
+   GREETING & DATE
+   ============================================================ */
+const hour = new Date().getHours();
+const part = hour < 12 ? "Good morning" : hour < 18 ? "Good afternoon" : "Good evening";
+document.getElementById("greetingText").textContent = `${part}, ${customer.name} 👋`;
+document.getElementById("dateText").textContent = new Date().toLocaleDateString("en-US", {
+  weekday: "long", year: "numeric", month: "long", day: "numeric"
+});
+
+/* ============================================================
+   AUTO OPEN WELCOME POPUP ON FIRST LOAD
+   ============================================================ */
+window.addEventListener("DOMContentLoaded", () => {
+  openModal('welcomeModal');
+});
+
+/* ============================================================
+   SATISFACTION RATING
+   ============================================================ */
+const emojiRow = document.getElementById("emojiRow");
+const satText = document.getElementById("satText");
+const savedSat = localStorage.getItem("cshine_sat");
+if (savedSat) {
+  const btn = emojiRow.querySelector(`[data-v="${savedSat}"]`);
+  if (btn) { btn.style.borderColor = "#2E7D32"; btn.style.background = "#E8F5E9"; }
+  satText.textContent = `Last rating: ${savedSat}/5`;
+}
+emojiRow.addEventListener("click", e => {
+  const btn = e.target.closest("button");
+  if (!btn) return;
+  emojiRow.querySelectorAll(".emoji-btn").forEach(b => {
+    b.style.borderColor = "transparent";
+    b.style.background = "none";
+  });
+  btn.style.borderColor = "#2E7D32";
+  btn.style.background = "#E8F5E9";
+  localStorage.setItem("cshine_sat", btn.dataset.v);
+  satText.textContent = `Thank you! You rated ${btn.dataset.v}/5`;
+});
+
+/* ============================================================
+   COMPLAINTS
+   ============================================================ */
+let complaints = JSON.parse(localStorage.getItem("cshine_complaints") || "[]");
+const complaintList = document.getElementById("complaintList");
+
+function renderComplaints() {
+  if (complaints.length === 0) {
+    complaintList.innerHTML = `<li class="complaint-empty">No concerns submitted yet.</li>`;
+    return;
+  }
+  complaintList.innerHTML = complaints.map(c => `
+    <li class="complaint-item">
+      <span>${c.text}</span>
+      <span class="complaint-time">${c.time}</span>
+    </li>
+  `).join("");
+}
+renderComplaints();
+
+document.getElementById("submitBtn").addEventListener("click", () => {
+  const input = document.getElementById("complaintInput");
+  const text = input.value.trim();
+  if (!text) {
+    input.focus();
+    input.style.borderColor = "#F59E0B";
+    setTimeout(() => input.style.borderColor = "", 1200);
+    return;
+  }
+  complaints.unshift({
+    text: text,
+    time: new Date().toLocaleString("en-US", {
+      month: "short", day: "numeric", hour: "2-digit", minute: "2-digit"
+    })
+  });
+  localStorage.setItem("cshine_complaints", JSON.stringify(complaints));
+  input.value = "";
+  renderComplaints();
+});
+</script>
+
+</body>
+</html>
